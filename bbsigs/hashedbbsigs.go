@@ -3,7 +3,7 @@ package bgls
 import (
 	"math/big"
 
-	. "github.com/Project-Arda/bgls/curves" // nolint: golint
+	. "github.com/PeterCCLiu/bgls/curves" // nolint: golint
 	"golang.org/x/crypto/blake2b"
 )
 

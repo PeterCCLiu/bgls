@@ -507,8 +507,9 @@ func AltbnBlake2b(message []byte) []*big.Int {
 // HashToG1 Hashes a message to a point on Altbn128 using Keccak3 and try and increment
 // This is for compatability with Ethereum hashing.
 // The return value is the altbn_128 library's internel representation for points.
+// Peter-July14: changed to normal sha3
 func (curve *altbn128) HashToG1(message []byte) Point {
-	coords := AltbnKeccak3(message)
+	coords := AltbnSha3(message)
 	p, _ := curve.MakeG1Point(coords, false)
 	return p
 }

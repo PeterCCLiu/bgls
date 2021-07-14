@@ -15,7 +15,8 @@ func TestEthereumHash(t *testing.T) {
 	// Tests Altbn hash to curve against known solidity test case.
 	a, _ := new(big.Int).SetString("9121282642809701931333593728297233225556711250127745709186816755779879923737", 10)
 	aBytes := a.Bytes()
-	coords := AltbnKeccak3(aBytes)
+	// coords := AltbnKeccak3(aBytes)
+	coords := AltbnSha3(aBytes)
 	expX, _ := new(big.Int).SetString("11423386531623885114587219621463106117140760157404497425836076043015227528156", 10)
 	expY, _ := new(big.Int).SetString("20262289731964024720969923714809935701428881933342918937283877214228227624643", 10)
 	assert.True(t, coords[0].Cmp(expX) == 0 && coords[1].Cmp(expY) == 0, "Hash does not match known Ethereum Output")
