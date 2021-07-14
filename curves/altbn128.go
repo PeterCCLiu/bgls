@@ -9,7 +9,7 @@ import (
 
 	"github.com/dchest/blake2b"
 	"github.com/ethereum/go-ethereum/crypto/bn256/cloudflare"
-	gosha3 "github.com/ethereum/go-ethereum/crypto/sha3"
+	// gosha3 "github.com/ethereum/go-ethereum/crypto/sha3"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -491,10 +491,11 @@ func AltbnSha3(message []byte) []*big.Int {
 // AltbnKeccak3 Hashes a message to a point on Altbn128 using Keccak3 and try and increment
 // Keccak3 is only for compatability with Ethereum hashing.
 // The return value is the x,y affine coordinate pair.
-func AltbnKeccak3(message []byte) []*big.Int {
-	p1, p2 := tryAndIncrementEvm(message, EthereumSum256, Altbn128)
-	return []*big.Int{p1, p2}
-}
+// Peter-July14: Commented this out to avoid package not found errors.
+//func AltbnKeccak3(message []byte) []*big.Int {
+//	p1, p2 := tryAndIncrementEvm(message, EthereumSum256, Altbn128)
+//	return []*big.Int{p1, p2}
+//}
 
 // AltbnBlake2b Hashes a message to a point on Altbn128 using Blake2b and try and increment
 // The return value is the x,y affine coordinate pair.
@@ -514,9 +515,10 @@ func (curve *altbn128) HashToG1(message []byte) Point {
 
 // EthereumSum256 returns the Keccak3-256 digest of the data. This is because Ethereum
 // uses a non-standard hashing algo.
-func EthereumSum256(data []byte) (digest [32]byte) {
-	h := gosha3.NewKeccak256()
-	h.Write(data)
-	h.Sum(digest[:0])
-	return
-}
+// Peter-July14: Commented this out to avoid package not found errors.
+//func EthereumSum256(data []byte) (digest [32]byte) {
+//	h := gosha3.NewKeccak256()
+//	h.Write(data)
+//	h.Sum(digest[:0])
+//	return
+//}

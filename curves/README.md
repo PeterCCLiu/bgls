@@ -36,6 +36,8 @@ BenchmarkPairGT-8               	    1000	   1539918 ns/op
 Currently only hashing to G1 is supported. Hashing to G2 is planned.
 For altbn128, the hashing algorithm is currently try-and-increment, and we support SHA3, Kangaroo twelve, Keccak256, and Blake2b.
 
+Updates July 14: commented out deprecated Ethereum sha3 library (keccak256) and use crypto/sha3. 
+
 For bls12-381, we are using [Fouque-Tibouchi hashing](http://www.di.ens.fr/~fouque/pub/latincrypt12.pdf) using blake2b. This is interoperable with ebfull's repository.
 
 ## References
