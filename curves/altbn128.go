@@ -10,7 +10,7 @@ import (
 	"github.com/dchest/blake2b"
 	"github.com/ethereum/go-ethereum/crypto/bn256/cloudflare"
 	// gosha3 "github.com/ethereum/go-ethereum/crypto/sha3"
-	"golang.org/x/crypto/sha3"
+	sha3 "golang.org/x/crypto/sha3"
 )
 
 type altbn128 struct {
@@ -491,11 +491,11 @@ func AltbnSha3(message []byte) []*big.Int {
 // AltbnKeccak3 Hashes a message to a point on Altbn128 using Keccak3 and try and increment
 // Keccak3 is only for compatability with Ethereum hashing.
 // The return value is the x,y affine coordinate pair.
-// Peter-July14: Commented this out to avoid package not found errors.
-//func AltbnKeccak3(message []byte) []*big.Int {
-//	p1, p2 := tryAndIncrementEvm(message, EthereumSum256, Altbn128)
-//	return []*big.Int{p1, p2}
-//}
+// Peter-July21: rollback
+func AltbnKeccak3(message []byte) []*big.Int {
+	p1, p2 := tryAndIncrementEvm(message, EthereumSum256, Altbn128)
+	return []*big.Int{p1, p2}
+}
 
 // AltbnBlake2b Hashes a message to a point on Altbn128 using Blake2b and try and increment
 // The return value is the x,y affine coordinate pair.
@@ -507,19 +507,20 @@ func AltbnBlake2b(message []byte) []*big.Int {
 // HashToG1 Hashes a message to a point on Altbn128 using Keccak3 and try and increment
 // This is for compatability with Ethereum hashing.
 // The return value is the altbn_128 library's internel representation for points.
-// Peter-July14: changed to normal sha3
+// Peter-July21: rollback
 func (curve *altbn128) HashToG1(message []byte) Point {
-	coords := AltbnSha3(message)
+	coords := AltbnKeccak3(message)
 	p, _ := curve.MakeG1Point(coords, false)
 	return p
 }
 
 // EthereumSum256 returns the Keccak3-256 digest of the data. This is because Ethereum
 // uses a non-standard hashing algo.
-// Peter-July14: Commented this out to avoid package not found errors.
-//func EthereumSum256(data []byte) (digest [32]byte) {
-//	h := gosha3.NewKeccak256()
-//	h.Write(data)
-//	h.Sum(digest[:0])
-//	return
-//}
+// Peter-July21: switched to golang sha3 NewLegacyKeccak256()
+func EthereumSum256(data []byte) (digest [32]byte) {
+	h := sha3.NewLegacyKeccak256()
+	//go-sha3: Only use this function if you require compatibility with an existing cryptosystem that uses non-standard padding. All other users should use New256 instead.
+	h.Write(data)
+	h.Sum(digest[:0])
+	return
+}
